@@ -7,22 +7,54 @@ import { AiHeroBackground } from '../ui/ai-hero-background';
 
 gsap.registerPlugin(ScrollTrigger);
 
+// "RIPUNJAY SINGH" — R(0), P(2), J(5) are the "RPJ" base letters
+const FULL_TEXT = 'RIPUNJAY SINGH';
+const BASE_INDICES = new Set([0, 2, 5]); // R, P, J
+
 export default function HeroIntroFlow() {
     const sectionRef = useRef<HTMLElement>(null);
     const canvasWrapperRef = useRef<HTMLDivElement>(null);
     const nameRef = useRef<HTMLHeadingElement>(null);
-    const rpjRef = useRef<HTMLSpanElement>(null);
-    const fullNameRef = useRef<HTMLSpanElement>(null);
+    const nameInnerRef = useRef<HTMLDivElement>(null);
     const introContentRef = useRef<HTMLDivElement>(null);
     const textRevealRefs = useRef<(HTMLElement | null)[]>([]);
+    const charRefs = useRef<(HTMLSpanElement | null)[]>([]);
 
     useEffect(() => {
         const ctx = gsap.context(() => {
+            // --- Measure natural widths of hidden characters ---
+            // Temporarily expand hidden chars, measure, then collapse
+            const widths: number[] = [];
+
+            charRefs.current.forEach((el, i) => {
+                if (!el) return;
+                if (!BASE_INDICES.has(i)) {
+                    // Temporarily show to measure
+                    el.style.width = 'auto';
+                    el.style.opacity = '1';
+                }
+            });
+
+            // Force reflow to get accurate measurements
+            charRefs.current.forEach((el, i) => {
+                if (el) widths[i] = el.getBoundingClientRect().width;
+            });
+
+            // Collapse hidden chars back
+            charRefs.current.forEach((el, i) => {
+                if (!el || BASE_INDICES.has(i)) return;
+                gsap.set(el, { width: 0, opacity: 0 });
+            });
+
+            // Set initial scale on the name container (makes RPJ look big)
+            gsap.set(nameInnerRef.current, { scale: 2.2 });
+
+            // --- Build the scroll timeline ---
             const tl = gsap.timeline({
                 scrollTrigger: {
                     trigger: sectionRef.current,
                     start: 'top top',
-                    end: () => `+=${window.innerHeight * 2.5}`, // Use a function to guarantee pixel value
+                    end: () => `+=${window.innerHeight * 2.5}`,
                     scrub: 0.5,
                     pin: true,
                     pinSpacing: true,
@@ -30,34 +62,54 @@ export default function HeroIntroFlow() {
                 }
             });
 
-            // --- PHASE 1: RPJ → RIPUNJAY SINGH. expand + shrink to top-left ---
+            // --- PHASE 1: RPJ expands into RIPUNJAY SINGH (0 → 0.25) ---
 
-            // Step 1: RPJ fades out (0 → 0.15)
-            tl.to(rpjRef.current, {
-                opacity: 0,
-                scale: 1.1,
-                duration: 0.15,
-                ease: 'power2.in',
+            // Step 1a: Expand hidden chars in "RIPUNJAY" (indices 1, 3, 4, 6, 7)
+            const ripunjayHidden = charRefs.current
+                .map((el, i) => ({ el, i, w: widths[i] }))
+                .filter(item => item.el && !BASE_INDICES.has(item.i) && item.i < 8);
+
+            ripunjayHidden.forEach((item, idx) => {
+                tl.to(item.el!, {
+                    width: item.w,
+                    opacity: 1,
+                    duration: 0.12,
+                    ease: 'power2.out',
+                }, idx * 0.018);
+            });
+
+            // Step 1b: Expand " SINGH" (indices 8-13) — slightly after RIPUNJAY
+            const singhChars = charRefs.current
+                .map((el, i) => ({ el, i, w: widths[i] }))
+                .filter(item => item.el && item.i >= 8);
+
+            singhChars.forEach((item, idx) => {
+                tl.to(item.el!, {
+                    width: item.w,
+                    opacity: 1,
+                    duration: 0.1,
+                    ease: 'power2.out',
+                }, 0.09 + idx * 0.015);
+            });
+
+            // Step 1c: Scale the container down as text expands (keeps visual weight)
+            tl.to(nameInnerRef.current, {
+                scale: 1,
+                duration: 0.25,
+                ease: 'power2.inOut',
             }, 0);
 
-            // Step 2: RIPUNJAY SINGH. fades in large and clear (0.08 → 0.22)
-            tl.to(fullNameRef.current, {
-                opacity: 1,
-                duration: 0.14,
-                ease: 'power2.out',
-            }, 0.08);
+            // --- PHASE 2: Hold at full size (0.25 → 0.4) ---
+            // No animation — just breathing room to read the full name
 
-            // Step 3: Hold visible at full size (0.22 → 0.35) — no animation here,
-            // just a gap before the shrink starts
-
-            // Step 4: Shrink and move to top-left corner (0.35 → 0.7)
+            // --- PHASE 3: Shrink to corner + reveal intro (0.4 → 0.75) ---
             tl.to(nameRef.current, {
                 scale: 0.25,
                 x: '-38vw',
                 y: '-40vh',
                 duration: 0.35,
                 ease: 'power2.inOut',
-            }, 0.35);
+            }, 0.4);
 
             // Dots fade slightly but stay visible for continuity
             tl.to(canvasWrapperRef.current, {
@@ -66,19 +118,18 @@ export default function HeroIntroFlow() {
                 ease: 'power2.inOut',
             }, 0);
 
-            // --- PHASE 2: Intro content fades in ---
-            // Starts at 0.35 (more gap after name movement for breathing room)
+            // --- PHASE 4: Intro content fades in ---
             tl.fromTo(introContentRef.current,
                 { opacity: 0, y: 60 },
                 { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' },
-                0.35
+                0.4
             );
 
             // Stagger the individual text elements
             tl.fromTo(textRevealRefs.current,
                 { y: 40, opacity: 0 },
                 { y: 0, opacity: 1, stagger: 0.06, duration: 0.35, ease: 'power2.out' },
-                0.45
+                0.5
             );
 
         }, sectionRef);
@@ -95,29 +146,31 @@ export default function HeroIntroFlow() {
                 <div className="absolute inset-0 bg-radial-gradient from-transparent to-black/80 pointer-events-none" />
             </div>
 
-            {/* 2. The Hero Name — RPJ → RIPUNJAY SINGH morph */}
+            {/* 2. The Hero Name — RPJ expands into RIPUNJAY SINGH */}
             <h1
                 ref={nameRef}
-                className="absolute inset-0 z-30 flex items-center justify-center text-[7vw] leading-none font-black text-transparent bg-clip-text bg-gradient-to-br from-white via-gray-200 to-gray-600 tracking-tighter select-none text-center pointer-events-none"
+                className="absolute inset-0 z-30 flex items-center justify-center select-none pointer-events-none"
                 style={{ willChange: 'transform' }}
             >
-                {/* RPJ — visible initially */}
-                <span
-                    ref={rpjRef}
-                    className="absolute inset-0 flex items-center justify-center"
+                <div
+                    ref={nameInnerRef}
+                    className="whitespace-nowrap"
+                    style={{ willChange: 'transform' }}
                 >
-                    <span className="text-[13.5vw] md:text-[10.8vw] font-black text-transparent bg-clip-text bg-gradient-to-br from-white via-gray-200 to-gray-600 tracking-[-0.05em]">RPJ</span>
-                </span>
-                {/* RIPUNJAY SINGH. — hidden initially, revealed on scroll */}
-                <span
-                    ref={fullNameRef}
-                    className="absolute inset-0 flex items-center justify-center opacity-0"
-                >
-                    <span className="block text-center">
-                        <span className="block text-[7vw] font-black text-transparent bg-clip-text bg-gradient-to-br from-white via-gray-200 to-gray-600">RIPUNJAY</span>
-                        <span className="block text-[7vw] -mt-2 font-black text-transparent bg-clip-text bg-gradient-to-br from-white via-gray-200 to-gray-600">SINGH.</span>
-                    </span>
-                </span>
+                    {FULL_TEXT.split('').map((char, i) => {
+                        const isBase = BASE_INDICES.has(i);
+                        return (
+                            <span
+                                key={i}
+                                ref={el => { charRefs.current[i] = el; }}
+                                className="inline-block text-[5.5vw] font-black text-transparent bg-clip-text bg-gradient-to-br from-white via-gray-200 to-gray-600 tracking-[-0.02em] leading-none"
+                                style={isBase ? {} : { width: 0, opacity: 0, overflow: 'hidden' }}
+                            >
+                                {char === ' ' ? '\u00A0' : char}
+                            </span>
+                        );
+                    })}
+                </div>
             </h1>
 
             {/* 3. The Intro Content — starts invisible, revealed by GSAP */}
