@@ -11,6 +11,8 @@ export default function HeroIntroFlow() {
     const sectionRef = useRef<HTMLElement>(null);
     const canvasWrapperRef = useRef<HTMLDivElement>(null);
     const nameRef = useRef<HTMLHeadingElement>(null);
+    const rpjRef = useRef<HTMLSpanElement>(null);
+    const fullNameRef = useRef<HTMLSpanElement>(null);
     const introContentRef = useRef<HTMLDivElement>(null);
     const textRevealRefs = useRef<(HTMLElement | null)[]>([]);
 
@@ -28,15 +30,30 @@ export default function HeroIntroFlow() {
                 }
             });
 
-            // --- PHASE 1: Hero name shrinks and moves to top-left ---
-            // Takes first 50% of the scroll (was 40% — slower now)
+            // --- PHASE 1: RPJ → RIPUNJAY SINGH. crossfade + shrink to top-left ---
+            // RPJ fades out first
+            tl.to(rpjRef.current, {
+                opacity: 0,
+                scale: 0.8,
+                duration: 0.2,
+                ease: 'power2.in',
+            }, 0);
+
+            // Full name fades in
+            tl.to(fullNameRef.current, {
+                opacity: 1,
+                duration: 0.15,
+                ease: 'power2.out',
+            }, 0.1);
+
+            // Then the whole name container shrinks and moves to corner
             tl.to(nameRef.current, {
                 scale: 0.25,
                 x: '-38vw',
                 y: '-40vh',
                 duration: 0.5,
                 ease: 'power2.inOut',
-            }, 0);
+            }, 0.15);
 
             // Dots fade slightly but stay visible for continuity
             tl.to(canvasWrapperRef.current, {
@@ -74,15 +91,28 @@ export default function HeroIntroFlow() {
                 <div className="absolute inset-0 bg-radial-gradient from-transparent to-black/80 pointer-events-none" />
             </div>
 
-            {/* 2. The Hero Name — starts centered */}
+            {/* 2. The Hero Name — RPJ → RIPUNJAY SINGH morph */}
             <h1
                 ref={nameRef}
                 className="absolute inset-0 z-30 flex items-center justify-center text-[7vw] leading-none font-black text-transparent bg-clip-text bg-gradient-to-br from-white via-gray-200 to-gray-600 tracking-tighter select-none text-center pointer-events-none"
                 style={{ willChange: 'transform' }}
             >
-                <span>
-                    <span className="block">RIPUNJAY</span>
-                    <span className="block -mt-2">SINGH.</span>
+                {/* RPJ — visible initially */}
+                <span
+                    ref={rpjRef}
+                    className="absolute inset-0 flex items-center justify-center"
+                >
+                    <span className="text-[15vw] md:text-[12vw] font-black text-transparent bg-clip-text bg-gradient-to-br from-white via-gray-200 to-gray-600 tracking-[-0.05em]">RPJ</span>
+                </span>
+                {/* RIPUNJAY SINGH. — hidden initially, revealed on scroll */}
+                <span
+                    ref={fullNameRef}
+                    className="absolute inset-0 flex items-center justify-center opacity-0"
+                >
+                    <span className="block text-center">
+                        <span className="block text-[7vw]">RIPUNJAY</span>
+                        <span className="block text-[7vw] -mt-2">SINGH.</span>
+                    </span>
                 </span>
             </h1>
 

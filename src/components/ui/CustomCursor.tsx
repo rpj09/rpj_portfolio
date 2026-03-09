@@ -4,6 +4,8 @@ import { useEffect, useRef, useState, useCallback } from 'react';
 import gsap from 'gsap';
 
 export default function CustomCursor() {
+    // Disable custom cursor on touch/mobile devices
+    const [isTouchDevice, setIsTouchDevice] = useState(false);
     const [isVisible, setIsVisible] = useState(false);
     const cursorRef = useRef<HTMLDivElement>(null);
     const followerRef = useRef<HTMLDivElement>(null);
@@ -19,7 +21,15 @@ export default function CustomCursor() {
         mousePos.current = { x: e.clientX, y: e.clientY };
     }, [isVisible]);
 
+    // Detect touch devices and bail out
     useEffect(() => {
+        const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0 || window.matchMedia('(hover: none)').matches;
+        setIsTouchDevice(isTouch);
+    }, []);
+
+    useEffect(() => {
+        if (isTouchDevice) return; // Don't hide cursor on touch devices
+
         // Hide default cursor
         document.documentElement.style.cursor = 'none';
 
@@ -165,8 +175,9 @@ export default function CustomCursor() {
                 el.removeEventListener('mouseleave', handleLeave);
             });
         };
-    }, [handleMouseMove]);
+    }, [handleMouseMove, isTouchDevice]);
 
+    if (isTouchDevice) return null;
     if (!isVisible) return null;
 
     return (

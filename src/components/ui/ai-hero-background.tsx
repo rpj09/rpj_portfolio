@@ -22,7 +22,8 @@ export function AiHeroBackground() {
             alpha: false,
             powerPreference: 'high-performance'
         });
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        const isMobile = window.innerWidth < 768;
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1.5 : 2));
         renderer.setSize(container.clientWidth, container.clientHeight);
         renderer.setClearColor(0x000000, 1);
         container.appendChild(renderer.domElement);
@@ -36,12 +37,12 @@ export function AiHeroBackground() {
         // to guarantee buttery 60fps scroll performance.
 
         const GRID = {
-            cols: 60,
-            rows: 60,
+            cols: isMobile ? 30 : 60,
+            rows: isMobile ? 30 : 60,
             jitter: 0.3,
             hexOffset: 0.5,
-            dotRadius: 0.04, // Slightly larger because fewer dots
-            spacing: 1.2     // Doubled spacing to maintain the same visual volume
+            dotRadius: isMobile ? 0.06 : 0.04,
+            spacing: isMobile ? 2.4 : 1.2
         };
 
         const total = GRID.cols * GRID.rows;
