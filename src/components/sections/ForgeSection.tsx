@@ -39,20 +39,20 @@ export default function ForgeSection() {
 
             {/* Section Header */}
             <div className="container mx-auto px-6 mb-32 text-center">
-                <div className="inline-block px-4 py-2 rounded-full border border-white/10 bg-white/5 w-fit backdrop-blur-sm mb-6">
-                    <span className="font-mono text-[10px] sm:text-xs font-bold tracking-[0.2em] uppercase text-text-secondary">
+                <div className="inline-block px-6 py-3 rounded-full border border-white/10 bg-white/5 w-fit backdrop-blur-sm mb-8 relative z-10 transition-transform hover:scale-105 duration-300">
+                    <span className="font-mono text-xs sm:text-sm font-bold tracking-[0.2em] uppercase text-text-secondary">
                         Proof of Work
                     </span>
                 </div>
                 <TextReveal
                     as="h3"
-                    className="text-[clamp(3rem,8vw,8rem)] leading-[0.85] font-heading font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white to-white/40"
+                    className="text-[clamp(4rem,10vw,10rem)] leading-[0.85] font-heading font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white to-white/40"
                     splitBy="words"
                     stagger={0.08}
                 >
                     Built. Shipped. In Production.
                 </TextReveal>
-                <p className="text-text-secondary text-lg max-w-2xl mx-auto mt-6">
+                <p className="text-text-secondary text-xl md:text-2xl max-w-3xl mx-auto mt-8 font-light leading-relaxed">
                     Not concept demos. Not hackathon prototypes. These systems process real data,
                     serve real users, and run 24/7 without supervision.
                 </p>
