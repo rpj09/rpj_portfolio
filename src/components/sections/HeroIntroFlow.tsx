@@ -30,30 +30,34 @@ export default function HeroIntroFlow() {
                 }
             });
 
-            // --- PHASE 1: RPJ → RIPUNJAY SINGH. crossfade + shrink to top-left ---
-            // RPJ fades out first
+            // --- PHASE 1: RPJ → RIPUNJAY SINGH. expand + shrink to top-left ---
+
+            // Step 1: RPJ fades out (0 → 0.15)
             tl.to(rpjRef.current, {
                 opacity: 0,
-                scale: 0.8,
-                duration: 0.2,
+                scale: 1.1,
+                duration: 0.15,
                 ease: 'power2.in',
             }, 0);
 
-            // Full name fades in
+            // Step 2: RIPUNJAY SINGH. fades in large and clear (0.08 → 0.22)
             tl.to(fullNameRef.current, {
                 opacity: 1,
-                duration: 0.15,
+                duration: 0.14,
                 ease: 'power2.out',
-            }, 0.1);
+            }, 0.08);
 
-            // Then the whole name container shrinks and moves to corner
+            // Step 3: Hold visible at full size (0.22 → 0.35) — no animation here,
+            // just a gap before the shrink starts
+
+            // Step 4: Shrink and move to top-left corner (0.35 → 0.7)
             tl.to(nameRef.current, {
                 scale: 0.25,
                 x: '-38vw',
                 y: '-40vh',
-                duration: 0.5,
+                duration: 0.35,
                 ease: 'power2.inOut',
-            }, 0.15);
+            }, 0.35);
 
             // Dots fade slightly but stay visible for continuity
             tl.to(canvasWrapperRef.current, {
@@ -102,7 +106,7 @@ export default function HeroIntroFlow() {
                     ref={rpjRef}
                     className="absolute inset-0 flex items-center justify-center"
                 >
-                    <span className="text-[15vw] md:text-[12vw] font-black text-transparent bg-clip-text bg-gradient-to-br from-white via-gray-200 to-gray-600 tracking-[-0.05em]">RPJ</span>
+                    <span className="text-[13.5vw] md:text-[10.8vw] font-black text-transparent bg-clip-text bg-gradient-to-br from-white via-gray-200 to-gray-600 tracking-[-0.05em]">RPJ</span>
                 </span>
                 {/* RIPUNJAY SINGH. — hidden initially, revealed on scroll */}
                 <span
@@ -110,8 +114,8 @@ export default function HeroIntroFlow() {
                     className="absolute inset-0 flex items-center justify-center opacity-0"
                 >
                     <span className="block text-center">
-                        <span className="block text-[7vw]">RIPUNJAY</span>
-                        <span className="block text-[7vw] -mt-2">SINGH.</span>
+                        <span className="block text-[7vw] font-black text-transparent bg-clip-text bg-gradient-to-br from-white via-gray-200 to-gray-600">RIPUNJAY</span>
+                        <span className="block text-[7vw] -mt-2 font-black text-transparent bg-clip-text bg-gradient-to-br from-white via-gray-200 to-gray-600">SINGH.</span>
                     </span>
                 </span>
             </h1>
