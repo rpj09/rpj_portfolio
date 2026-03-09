@@ -54,8 +54,8 @@ export default function HeroIntroFlow() {
                 scrollTrigger: {
                     trigger: sectionRef.current,
                     start: 'top top',
-                    end: () => `+=${window.innerHeight * 2.5}`,
-                    scrub: 0.5,
+                    end: () => `+=${window.innerHeight * 4}`,
+                    scrub: 1,
                     pin: true,
                     pinSpacing: true,
                     anticipatePin: 1,
