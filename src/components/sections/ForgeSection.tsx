@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
+import TextReveal from '../ui/TextReveal';
 export default function ForgeSection() {
     const containerRef = useRef<HTMLElement>(null);
     const proj1Ref = useRef<HTMLDivElement>(null);
@@ -43,9 +44,14 @@ export default function ForgeSection() {
                         Proof of Work
                     </span>
                 </div>
-                <h3 className="text-[clamp(3rem,8vw,8rem)] leading-[0.85] font-heading font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white to-white/40">
-                    Built. Shipped.<br />In Production.
-                </h3>
+                <TextReveal
+                    as="h3"
+                    className="text-[clamp(3rem,8vw,8rem)] leading-[0.85] font-heading font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white to-white/40"
+                    splitBy="words"
+                    stagger={0.08}
+                >
+                    Built. Shipped. In Production.
+                </TextReveal>
                 <p className="text-text-secondary text-lg max-w-2xl mx-auto mt-6">
                     Not concept demos. Not hackathon prototypes. These systems process real data,
                     serve real users, and run 24/7 without supervision.

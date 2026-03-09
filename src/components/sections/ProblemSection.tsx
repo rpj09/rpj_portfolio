@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
+import AnimatedCounter from '../ui/AnimatedCounter';
 
 export default function ProblemSection() {
     const sectionRef = useRef<HTMLElement>(null);
@@ -66,19 +67,19 @@ export default function ProblemSection() {
                     {/* Stats from real resume data */}
                     <div className="grid grid-cols-2 gap-6 mt-8">
                         <div className="flex flex-col gap-1 border-l-2 border-accent-primary pl-4">
-                            <span className="text-3xl font-heading font-bold text-text-primary">95%</span>
+                            <AnimatedCounter end={95} suffix="%" className="text-3xl font-heading font-bold text-text-primary" />
                             <span className="text-sm font-mono text-text-secondary uppercase">Validation Accuracy</span>
                         </div>
                         <div className="flex flex-col gap-1 border-l-2 border-accent-gold pl-4">
-                            <span className="text-3xl font-heading font-bold text-text-primary">-70%</span>
+                            <AnimatedCounter end={70} prefix="-" suffix="%" className="text-3xl font-heading font-bold text-text-primary" />
                             <span className="text-sm font-mono text-text-secondary uppercase">Inference Cost</span>
                         </div>
                         <div className="flex flex-col gap-1 border-l-2 border-accent-primary pl-4">
-                            <span className="text-3xl font-heading font-bold text-text-primary">10K+</span>
+                            <AnimatedCounter end={10} suffix="K+" className="text-3xl font-heading font-bold text-text-primary" />
                             <span className="text-sm font-mono text-text-secondary uppercase">Daily API Requests</span>
                         </div>
                         <div className="flex flex-col gap-1 border-l-2 border-accent-gold pl-4">
-                            <span className="text-3xl font-heading font-bold text-text-primary">40%</span>
+                            <AnimatedCounter end={40} suffix="%" className="text-3xl font-heading font-bold text-text-primary" />
                             <span className="text-sm font-mono text-text-secondary uppercase">Faster Inference</span>
                         </div>
                     </div>
