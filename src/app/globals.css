@@ -15,7 +15,13 @@
 }
 
 @layer base {
+
   /* scroll-behavior: smooth REMOVED — it conflicts with GSAP ScrollTrigger scrub */
+  html,
+  body {
+    overflow-x: hidden !important;
+    max-width: 100vw;
+  }
 
   body {
     background-color: var(--color-background-base);

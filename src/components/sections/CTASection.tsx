@@ -86,7 +86,7 @@ export default function CTASection() {
                 </div>
 
                 {/* Social Proof Footer */}
-                <div className="mt-24 pt-8 border-t border-white/10 flex flex-wrap justify-center gap-8 md:gap-16 opacity-60 pointer-events-none">
+                <div className="mt-24 pt-8 border-t border-white/10 grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-16 opacity-60 pointer-events-none w-full text-center md:text-left">
                     <div className="flex flex-col">
                         <AnimatedCounter end={10} suffix="K+" className="font-heading text-2xl font-bold text-white" />
                         <span className="font-mono text-xs uppercase text-text-secondary">Daily API Requests</span>
