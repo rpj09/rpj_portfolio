@@ -125,12 +125,12 @@ export default function JourneySection() {
     }, []);
 
     return (
-        <section ref={sectionRef} className="relative w-full min-h-screen flex overflow-hidden z-10">
+        <section ref={sectionRef} className="relative w-full min-h-screen flex flex-col lg:flex-row overflow-hidden z-10">
 
             {/* Left Panel: Content */}
             <div
                 ref={contentRef}
-                className="w-full lg:w-1/2 relative z-10 bg-black p-8 md:p-16 font-mono flex flex-col justify-between min-h-screen"
+                className="w-full lg:w-1/2 relative z-10 bg-black p-8 md:p-16 font-mono flex flex-col justify-between min-h-screen lg:min-h-0"
             >
                 {/* Header */}
                 <div className="mb-12">
@@ -224,7 +224,7 @@ export default function JourneySection() {
 
             {/* Right Panel: Dithering Shader */}
             <div
-                className="hidden lg:block w-1/2 relative cursor-pointer"
+                className="w-full h-[60vh] lg:h-auto lg:w-1/2 relative cursor-pointer overflow-hidden bg-[#050505]"
                 onMouseEnter={() => { isHovering.current = true; }}
                 onMouseLeave={() => { isHovering.current = false; }}
             >
