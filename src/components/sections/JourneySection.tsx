@@ -67,7 +67,7 @@ export default function JourneySection() {
 
         const renderLoop = () => {
             const targetPxSize = isHovering.current ? 8 : 3;
-            const targetScale = isHovering.current ? 1.2 : 0.7;
+            const targetScale = 0.7; // Keep scale fixed
 
             // Smoothly interpolate towards targets (spring-like)
             currentPxSize += (targetPxSize - currentPxSize) * 0.1;
