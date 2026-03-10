@@ -196,9 +196,9 @@ export default function JourneySection() {
             {/* Right Panel: Interactive 3D Shatter Sphere */}
             <div className="hidden lg:block w-1/2 relative bg-black">
                 <ThreeShatterGlobe
-                    color="#60a5fa"
-                    particleCount={6000}
-                    radius={4}
+                    color="hsl(220, 80%, 60%)"
+                    particleCount={15000}
+                    radius={4.5}
                 />
             </div>
 

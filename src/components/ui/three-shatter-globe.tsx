@@ -116,8 +116,8 @@ export default function ThreeShatterGlobe({
                     vDistance = dist;
                     
                     vec4 mvPosition = modelViewMatrix * vec4(targetPos, 1.0);
-                    // Point size perspective
-                    gl_PointSize = (15.0 / -mvPosition.z); 
+                    // Point size perspective - increased numerator from 15.0 to 45.0 for larger base size
+                    gl_PointSize = (45.0 / -mvPosition.z); 
                     gl_Position = projectionMatrix * mvPosition;
                 }
             `,
@@ -133,12 +133,12 @@ export default function ThreeShatterGlobe({
                     
                     // Base color
                     vec3 finalColor = uColor;
-                    float alpha = 0.8;
+                    float alpha = 0.95; // Increased base opacity from 0.8
                     
                     // Highlight particles that are being pushed
                     if (vDistance < uRadius) {
                         float intensity = 1.0 - (vDistance / uRadius);
-                        finalColor = mix(uColor, vec3(1.0, 1.0, 1.0), intensity * 0.8);
+                        finalColor = mix(uColor, vec3(1.0, 1.0, 1.0), intensity * 0.9);
                         alpha = 1.0;
                     }
                     
