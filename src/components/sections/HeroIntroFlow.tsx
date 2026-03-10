@@ -138,7 +138,7 @@ export default function HeroIntroFlow() {
     }, []);
 
     return (
-        <section ref={sectionRef} className="relative w-full h-screen bg-black z-[70]">
+        <section ref={sectionRef} className="relative w-full h-screen bg-black z-[70] overflow-hidden">
 
             {/* 1. The 3D Dot Background */}
             <div ref={canvasWrapperRef} className="absolute inset-0 z-0 origin-center">

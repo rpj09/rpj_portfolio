@@ -33,7 +33,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}>
-      <body className="antialiased selection:bg-accent-primary/30 selection:text-accent-primary">
+      <body className="antialiased selection:bg-accent-primary/30 selection:text-accent-primary overflow-x-hidden bg-background-base">
         <SmoothScroller>
           {children}
         </SmoothScroller>

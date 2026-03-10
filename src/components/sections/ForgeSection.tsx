@@ -165,7 +165,7 @@ export default function ForgeSection() {
                 <div ref={proj3Ref} className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                     <div className="order-2 lg:order-1 h-[450px] rounded-2xl overflow-hidden bg-background-base/20 backdrop-blur-md ring-1 ring-white/10 relative shadow-[0_0_50px_rgba(255,255,255,0.03)] p-8 flex flex-col justify-center">
                         {/* Graph visualization mock */}
-                        <div className="relative w-full h-full flex items-center justify-center">
+                        <div className="relative w-full h-full flex items-center justify-center scale-75 md:scale-100 origin-center transition-transform">
                             <div className="absolute w-32 h-32 rounded-full border border-white/20 bg-white/5 shadow-[0_0_30px_rgba(255,255,255,0.05)] flex items-center justify-center z-10">
                                 <span className="font-mono text-xs font-bold text-white/80 drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">Query</span>
                             </div>
