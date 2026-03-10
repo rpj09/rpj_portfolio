@@ -49,8 +49,8 @@ export default function HeroIntroFlow() {
                 gsap.set(el, { width: 0, opacity: 0 });
             });
 
-            // Set initial scale on the name container (makes RPJ look big)
-            gsap.set(nameInnerRef.current, { scale: isMobile ? 1.1 : 2.2 });
+            // Set initial scale on the name container (makes RPJ look big but fits expanding text without clipping boundary measurements)
+            gsap.set(nameInnerRef.current, { scale: isMobile ? 3.5 : 2.2 });
 
             // --- Build the scroll timeline ---
             const tl = gsap.timeline({
@@ -107,9 +107,9 @@ export default function HeroIntroFlow() {
 
             // --- PHASE 3: Shrink to corner + reveal intro (0.4 → 0.75) ---
             tl.to(nameRef.current, {
-                scale: isMobile ? 0.35 : 0.18,
-                x: isMobile ? '-18vw' : '-38vw',
-                y: isMobile ? '-38vh' : '-42vh',
+                scale: isMobile ? 0.75 : 0.18,
+                x: isMobile ? '0vw' : '-38vw',
+                y: isMobile ? '-40vh' : '-42vh',
                 duration: 0.35,
                 ease: 'power2.inOut',
             }, 0.4);
@@ -166,7 +166,7 @@ export default function HeroIntroFlow() {
                             <span
                                 key={i}
                                 ref={el => { charRefs.current[i] = el; }}
-                                className="inline-block align-top text-[10vw] md:text-[6.5vw] font-black text-transparent bg-clip-text bg-gradient-to-br from-white via-gray-200 to-gray-600 tracking-[-0.02em] leading-none"
+                                className="inline-block align-top text-[5.5vw] md:text-[6.5vw] font-black text-transparent bg-clip-text bg-gradient-to-br from-white via-gray-200 to-gray-600 tracking-[-0.02em] leading-none"
                                 style={isBase ? { verticalAlign: 'top' } : { width: 0, opacity: 0, overflow: 'hidden', verticalAlign: 'top' }}
                             >
                                 {char === ' ' ? '\u00A0' : char}
