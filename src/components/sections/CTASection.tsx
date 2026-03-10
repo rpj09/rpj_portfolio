@@ -70,17 +70,17 @@ export default function CTASection() {
                 </div>
 
                 {/* Social Links */}
-                <div className="mt-12 flex flex-wrap justify-center gap-4 sm:gap-6">
-                    <a href="https://github.com/rpj09" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-white/40 hover:text-white transition-colors text-sm">
+                <div className="mt-12 grid grid-cols-2 md:flex md:flex-wrap justify-center gap-4 sm:gap-6 w-full max-w-2xl">
+                    <a href="https://github.com/rpj09" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center md:justify-start gap-2 text-white/40 hover:text-white transition-colors text-sm">
                         <Github className="w-5 h-5" /> GitHub
                     </a>
-                    <a href="https://www.linkedin.com/in/rpj09/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-white/40 hover:text-white transition-colors text-sm">
+                    <a href="https://www.linkedin.com/in/rpj09/" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center md:justify-start gap-2 text-white/40 hover:text-white transition-colors text-sm">
                         <Linkedin className="w-5 h-5" /> LinkedIn
                     </a>
-                    <a href="https://x.com/_rpj09_" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-white/40 hover:text-white transition-colors text-sm">
+                    <a href="https://x.com/_rpj09_" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center md:justify-start gap-2 text-white/40 hover:text-white transition-colors text-sm">
                         <Twitter className="w-5 h-5" /> X / Twitter
                     </a>
-                    <a href="mailto:singhripunjay09@gmail.com" className="flex items-center gap-2 text-white/40 hover:text-white transition-colors text-sm">
+                    <a href="mailto:singhripunjay09@gmail.com" className="flex items-center justify-center md:justify-start gap-2 text-white/40 hover:text-white transition-colors text-sm col-span-2 md:col-span-1">
                         <Mail className="w-5 h-5" /> singhripunjay09@gmail.com
                     </a>
                 </div>

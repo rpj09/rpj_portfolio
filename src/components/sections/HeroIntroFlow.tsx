@@ -104,9 +104,9 @@ export default function HeroIntroFlow() {
 
             // --- PHASE 3: Shrink to corner + reveal intro (0.4 → 0.75) ---
             tl.to(nameRef.current, {
-                scale: 0.25,
+                scale: 0.18, // Reduced from 0.25 to prevent overlap with paragraph below
                 x: '-38vw',
-                y: '-40vh',
+                y: '-42vh', // Push it slightly higher up
                 duration: 0.35,
                 ease: 'power2.inOut',
             }, 0.4);
@@ -182,16 +182,16 @@ export default function HeroIntroFlow() {
                     <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16 pointer-events-auto">
 
                         {/* Left Column */}
-                        <div className="md:col-span-6 flex flex-col gap-8">
+                        <div className="md:col-span-6 flex flex-col gap-6 md:gap-8 mt-12 md:mt-0">
                             <h2
                                 ref={el => { textRevealRefs.current[0] = el; }}
-                                className="text-5xl md:text-6xl xl:text-7xl font-heading font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-br from-white to-gray-500 leading-tight"
+                                className="text-4xl sm:text-5xl md:text-6xl xl:text-7xl font-heading font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-br from-white to-gray-500 leading-[1.1]"
                             >
                                 I Don&apos;t Build <br /> Wrappers. I Build <br /> Infrastructure.
                             </h2>
                             <p
                                 ref={el => { textRevealRefs.current[1] = el; }}
-                                className="text-gray-400 text-xl md:text-2xl leading-relaxed font-sans font-light border-l-2 border-zinc-800 pl-6 lg:pl-8"
+                                className="text-gray-400 text-lg sm:text-xl md:text-2xl leading-relaxed font-sans font-light border-l-2 border-zinc-800 pl-4 sm:pl-6 lg:pl-8 text-pretty"
                             >
                                 Production multi-agent systems. Custom LoRA-tuned LLMs. Distributed inference pipelines processing 10,000+ daily requests. I architect the AI infrastructure that enterprise clients trust to ship.
                             </p>
