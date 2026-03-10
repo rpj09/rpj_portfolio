@@ -21,6 +21,9 @@ export default function HeroIntroFlow() {
     const charRefs = useRef<(HTMLSpanElement | null)[]>([]);
 
     useEffect(() => {
+        if (typeof window === 'undefined') return;
+        const isMobile = window.innerWidth < 768;
+
         const ctx = gsap.context(() => {
             // --- Measure natural widths of hidden characters ---
             // Temporarily expand hidden chars, measure, then collapse
@@ -47,7 +50,7 @@ export default function HeroIntroFlow() {
             });
 
             // Set initial scale on the name container (makes RPJ look big)
-            gsap.set(nameInnerRef.current, { scale: 2.2 });
+            gsap.set(nameInnerRef.current, { scale: isMobile ? 1.1 : 2.2 });
 
             // --- Build the scroll timeline ---
             const tl = gsap.timeline({
@@ -104,9 +107,9 @@ export default function HeroIntroFlow() {
 
             // --- PHASE 3: Shrink to corner + reveal intro (0.4 → 0.75) ---
             tl.to(nameRef.current, {
-                scale: 0.18, // Reduced from 0.25 to prevent overlap with paragraph below
-                x: '-38vw',
-                y: '-42vh', // Push it slightly higher up
+                scale: isMobile ? 0.35 : 0.18,
+                x: isMobile ? '-18vw' : '-38vw',
+                y: isMobile ? '-38vh' : '-42vh',
                 duration: 0.35,
                 ease: 'power2.inOut',
             }, 0.4);
@@ -163,7 +166,7 @@ export default function HeroIntroFlow() {
                             <span
                                 key={i}
                                 ref={el => { charRefs.current[i] = el; }}
-                                className="inline-block align-top text-[3vw] md:text-[6.5vw] font-black text-transparent bg-clip-text bg-gradient-to-br from-white via-gray-200 to-gray-600 tracking-[-0.02em] leading-none"
+                                className="inline-block align-top text-[10vw] md:text-[6.5vw] font-black text-transparent bg-clip-text bg-gradient-to-br from-white via-gray-200 to-gray-600 tracking-[-0.02em] leading-none"
                                 style={isBase ? { verticalAlign: 'top' } : { width: 0, opacity: 0, overflow: 'hidden', verticalAlign: 'top' }}
                             >
                                 {char === ' ' ? '\u00A0' : char}
