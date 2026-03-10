@@ -55,39 +55,34 @@ export default function JourneySection() {
     const sectionRef = useRef<HTMLElement>(null);
     const contentRef = useRef<HTMLDivElement>(null);
     const timelineRefs = useRef<(HTMLDivElement | null)[]>([]);
-    const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+
+    // Animation state for hover "shatter"
+    const [ditherProps, setDitherProps] = useState({ pxSize: 3, scale: 0.7 });
+    const isHovering = useRef(false);
 
     useEffect(() => {
         let animationFrameId: number;
-        let targetX = 0;
-        let targetY = 0;
-        let currentX = 0;
-        let currentY = 0;
-
-        const handleMouseMove = (e: MouseEvent) => {
-            if (!sectionRef.current) return;
-            const rect = sectionRef.current.getBoundingClientRect();
-            // Only update if viewport is in general view
-            if (rect.top < window.innerHeight && rect.bottom > 0) {
-                targetX = (e.clientX / window.innerWidth) * 2 - 1;
-                targetY = (e.clientY / window.innerHeight) * 2 - 1;
-            }
-        };
+        let currentPxSize = 3;
+        let currentScale = 0.7;
 
         const renderLoop = () => {
-            currentX += (targetX - currentX) * 0.05;
-            currentY += (targetY - currentY) * 0.05;
-            setMousePos({ x: currentX, y: currentY });
+            const targetPxSize = isHovering.current ? 8 : 3;
+            const targetScale = isHovering.current ? 1.2 : 0.7;
+
+            // Smoothly interpolate towards targets (spring-like)
+            currentPxSize += (targetPxSize - currentPxSize) * 0.1;
+            currentScale += (targetScale - currentScale) * 0.1;
+
+            // Only update react state if we are actually animating (reduces render churn)
+            if (Math.abs(targetPxSize - currentPxSize) > 0.01 || Math.abs(targetScale - currentScale) > 0.001) {
+                setDitherProps({ pxSize: currentPxSize, scale: currentScale });
+            }
+
             animationFrameId = requestAnimationFrame(renderLoop);
         };
 
-        window.addEventListener('mousemove', handleMouseMove);
         renderLoop();
-
-        return () => {
-            window.removeEventListener('mousemove', handleMouseMove);
-            cancelAnimationFrame(animationFrameId);
-        };
+        return () => cancelAnimationFrame(animationFrameId);
     }, []);
 
     useEffect(() => {
@@ -228,12 +223,19 @@ export default function JourneySection() {
             </div>
 
             {/* Right Panel: Dithering Shader */}
-            <div className="hidden lg:block w-1/2 relative">
+            <div
+                className="hidden lg:block w-1/2 relative cursor-pointer"
+                onMouseEnter={() => { isHovering.current = true; }}
+                onMouseLeave={() => { isHovering.current = false; }}
+            >
+                <div className="absolute inset-0 z-20 pointer-events-none flex items-center justify-center">
+                    {/* Optional optional pulsing ring or hint text can go here in future */}
+                </div>
                 <DitheringBackground
                     colorFront="hsl(220, 80%, 60%)"
                     shape="sphere"
-                    offsetX={mousePos.x}
-                    offsetY={mousePos.y}
+                    pxSize={ditherProps.pxSize}
+                    scale={ditherProps.scale}
                 />
             </div>
 

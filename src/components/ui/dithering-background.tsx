@@ -8,6 +8,8 @@ interface DitheringBackgroundProps {
     shape?: 'simplex' | 'warp' | 'dots' | 'wave' | 'ripple' | 'swirl' | 'sphere';
     offsetX?: number;
     offsetY?: number;
+    pxSize?: number;
+    scale?: number;
 }
 
 export default function DitheringBackground({
@@ -16,6 +18,8 @@ export default function DitheringBackground({
     shape = 'sphere',
     offsetX = 0,
     offsetY = 0,
+    pxSize = 3,
+    scale = 0.7,
 }: DitheringBackgroundProps) {
     return (
         <div className={`absolute inset-0 ${className}`}>
@@ -25,10 +29,10 @@ export default function DitheringBackground({
                 colorFront={colorFront}
                 shape={shape}
                 type="4x4"
-                pxSize={3}
+                pxSize={pxSize}
                 offsetX={offsetX}
                 offsetY={offsetY}
-                scale={0.7}
+                scale={scale}
                 rotation={0}
                 speed={0.08}
             />
