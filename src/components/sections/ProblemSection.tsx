@@ -49,7 +49,7 @@ export default function ProblemSection() {
                         </span>
                     </div>
 
-                    <h2 className="text-5xl md:text-7xl lg:text-8xl font-heading font-black leading-tight tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-white to-text-secondary mb-4">
+                    <h2 className="text-4xl md:text-6xl lg:text-7xl font-heading font-black leading-tight tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-white to-text-secondary mb-4">
                         Your AI Is Held Together With <br />
                         <span className="text-white/40">
                             API Calls &amp; Prayers.
