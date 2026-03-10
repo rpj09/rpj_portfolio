@@ -41,8 +41,8 @@ export default function CTASection() {
                     </span>
                 </div>
 
-                <h2 className="text-[clamp(3rem,10vw,10rem)] leading-[0.85] tracking-tighter font-heading font-black mb-6 text-transparent bg-clip-text bg-gradient-to-b from-white to-white/40">
-                    Let&apos;s Build Something <br />That Ships.
+                <h2 className="text-[clamp(2.5rem,8vw,10rem)] leading-[0.95] md:leading-[0.85] tracking-tighter font-heading font-black mb-6 text-transparent bg-clip-text bg-gradient-to-b from-white to-white/40 text-balance text-center">
+                    Let&apos;s Build Something <br className="hidden md:block" /> That Ships.
                 </h2>
 
                 <p className="text-xl text-text-secondary font-sans max-w-2xl mb-12">
@@ -70,7 +70,7 @@ export default function CTASection() {
                 </div>
 
                 {/* Social Links */}
-                <div className="mt-12 flex flex-wrap gap-6">
+                <div className="mt-12 flex flex-wrap justify-center gap-4 sm:gap-6">
                     <a href="https://github.com/rpj09" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-white/40 hover:text-white transition-colors text-sm">
                         <Github className="w-5 h-5" /> GitHub
                     </a>

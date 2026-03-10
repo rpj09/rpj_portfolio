@@ -163,7 +163,7 @@ export default function HeroIntroFlow() {
                             <span
                                 key={i}
                                 ref={el => { charRefs.current[i] = el; }}
-                                className="inline-block align-top text-[6.5vw] font-black text-transparent bg-clip-text bg-gradient-to-br from-white via-gray-200 to-gray-600 tracking-[-0.02em] leading-none"
+                                className="inline-block align-top text-[4.2vw] md:text-[6.5vw] font-black text-transparent bg-clip-text bg-gradient-to-br from-white via-gray-200 to-gray-600 tracking-[-0.02em] leading-none"
                                 style={isBase ? { verticalAlign: 'top' } : { width: 0, opacity: 0, overflow: 'hidden', verticalAlign: 'top' }}
                             >
                                 {char === ' ' ? '\u00A0' : char}
