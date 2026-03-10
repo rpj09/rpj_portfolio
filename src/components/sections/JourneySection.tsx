@@ -1,13 +1,13 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import dynamic from 'next/dynamic';
 import { Github, Linkedin, Mail, Award, BookOpen } from 'lucide-react';
 
-const DitheringBackground = dynamic(() => import('../ui/dithering-background'), {
+const ThreeShatterGlobe = dynamic(() => import('../ui/three-shatter-globe'), {
     ssr: false,
-    loading: () => <div className="absolute inset-0 bg-black" />,
+    loading: () => <div className="absolute inset-0 flex items-center justify-center"><div className="w-8 h-8 rounded-full border border-white/20 border-t-white animate-spin" /></div>,
 });
 
 const experience = [
@@ -55,35 +55,6 @@ export default function JourneySection() {
     const sectionRef = useRef<HTMLElement>(null);
     const contentRef = useRef<HTMLDivElement>(null);
     const timelineRefs = useRef<(HTMLDivElement | null)[]>([]);
-
-    // Animation state for hover "shatter"
-    const [ditherProps, setDitherProps] = useState({ pxSize: 3, scale: 0.7 });
-    const isHovering = useRef(false);
-
-    useEffect(() => {
-        let animationFrameId: number;
-        let currentPxSize = 3;
-        let currentScale = 0.7;
-
-        const renderLoop = () => {
-            const targetPxSize = isHovering.current ? 8 : 3;
-            const targetScale = isHovering.current ? 1.2 : 0.7;
-
-            // Smoothly interpolate towards targets (spring-like)
-            currentPxSize += (targetPxSize - currentPxSize) * 0.1;
-            currentScale += (targetScale - currentScale) * 0.1;
-
-            // Only update react state if we are actually animating (reduces render churn)
-            if (Math.abs(targetPxSize - currentPxSize) > 0.01 || Math.abs(targetScale - currentScale) > 0.001) {
-                setDitherProps({ pxSize: currentPxSize, scale: currentScale });
-            }
-
-            animationFrameId = requestAnimationFrame(renderLoop);
-        };
-
-        renderLoop();
-        return () => cancelAnimationFrame(animationFrameId);
-    }, []);
 
     useEffect(() => {
         gsap.fromTo(
@@ -222,20 +193,12 @@ export default function JourneySection() {
                 </div>
             </div>
 
-            {/* Right Panel: Dithering Shader */}
-            <div
-                className="hidden lg:block w-1/2 relative cursor-pointer"
-                onMouseEnter={() => { isHovering.current = true; }}
-                onMouseLeave={() => { isHovering.current = false; }}
-            >
-                <div className="absolute inset-0 z-20 pointer-events-none flex items-center justify-center">
-                    {/* Optional optional pulsing ring or hint text can go here in future */}
-                </div>
-                <DitheringBackground
-                    colorFront="hsl(220, 80%, 60%)"
-                    shape="sphere"
-                    pxSize={ditherProps.pxSize}
-                    scale={ditherProps.scale}
+            {/* Right Panel: Interactive 3D Shatter Sphere */}
+            <div className="hidden lg:block w-1/2 relative bg-black">
+                <ThreeShatterGlobe
+                    color="#60a5fa"
+                    particleCount={6000}
+                    radius={4}
                 />
             </div>
 
