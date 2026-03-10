@@ -37,7 +37,7 @@ export default function CTASection() {
 
                 <div className="inline-block px-4 py-2 rounded-full border border-white/10 bg-white/5 w-fit backdrop-blur-sm mb-6">
                     <span className="font-mono text-[10px] sm:text-xs font-bold tracking-[0.2em] uppercase text-text-secondary">
-                        Available for Hire
+                        Lets work together
                     </span>
                 </div>
 
