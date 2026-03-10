@@ -166,29 +166,32 @@ export default function ForgeSection() {
                     <div className="order-2 lg:order-1 h-[450px] rounded-2xl overflow-hidden bg-background-base/20 backdrop-blur-md ring-1 ring-white/10 relative shadow-[0_0_50px_rgba(255,255,255,0.03)] p-8 flex flex-col justify-center">
                         {/* Graph visualization mock */}
                         <div className="relative w-full h-full flex items-center justify-center">
-                            <div className="absolute w-24 h-24 rounded-full border border-white/20 flex items-center justify-center">
-                                <span className="font-mono text-[10px] text-white/60">Query</span>
+                            <div className="absolute w-32 h-32 rounded-full border border-white/20 bg-white/5 shadow-[0_0_30px_rgba(255,255,255,0.05)] flex items-center justify-center z-10">
+                                <span className="font-mono text-xs font-bold text-white/80 drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">Query</span>
                             </div>
                             {/* Connected nodes */}
                             {[
-                                { label: 'Rules', x: -80, y: -60, delay: 0 },
-                                { label: 'Docs', x: 80, y: -40, delay: 1 },
-                                { label: 'Context', x: -60, y: 60, delay: 2 },
-                                { label: 'Response', x: 70, y: 50, delay: 0.5 },
+                                { label: 'Rules', x: -100, y: -80, delay: 0 },
+                                { label: 'Docs', x: 100, y: -60, delay: 1 },
+                                { label: 'Context', x: -80, y: 80, delay: 2 },
+                                { label: 'Response', x: 90, y: 70, delay: 0.5 },
                             ].map((node, i) => (
                                 <motion.div
                                     key={i}
                                     initial={{ x: node.x, y: node.y }}
-                                    animate={{ y: [node.y, node.y - 12, node.y] }}
+                                    animate={{
+                                        y: [node.y, node.y - 12, node.y],
+                                        boxShadow: ['0px 0px 10px rgba(255,255,255,0.1)', '0px 0px 20px rgba(255,255,255,0.2)', '0px 0px 10px rgba(255,255,255,0.1)']
+                                    }}
                                     transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut', delay: node.delay }}
-                                    whileHover={{ scale: 1.15, boxShadow: '0px 0px 20px rgba(255,255,255,0.2)', borderColor: 'rgba(255,255,255,0.4)', transition: { duration: 0.2 } }}
-                                    className="absolute w-16 h-16 rounded-full border border-white/10 bg-white/5 flex items-center justify-center cursor-pointer transition-colors duration-300"
+                                    whileHover={{ scale: 1.15, boxShadow: '0px 0px 30px rgba(255,255,255,0.4)', borderColor: 'rgba(255,255,255,0.6)', backgroundColor: 'rgba(255,255,255,0.1)', transition: { duration: 0.2 } }}
+                                    className="absolute w-20 h-20 rounded-full border border-white/20 bg-white/5 flex items-center justify-center cursor-pointer transition-colors duration-300 backdrop-blur-sm z-20"
                                 >
-                                    <span className="font-mono text-[9px] text-white/40 pointer-events-none">{node.label}</span>
+                                    <span className="font-mono text-[10px] font-medium text-white/60 pointer-events-none drop-shadow-md">{node.label}</span>
                                 </motion.div>
                             ))}
                             <div className="absolute inset-0 flex items-center justify-center">
-                                <div className="w-48 h-48 rounded-full border border-dashed border-white/5 animate-spin" style={{ animationDuration: '30s' }} />
+                                <div className="w-64 h-64 rounded-full border border-dashed border-white/10 animate-spin" style={{ animationDuration: '40s' }} />
                             </div>
                         </div>
                     </div>
