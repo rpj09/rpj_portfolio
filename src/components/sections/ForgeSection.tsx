@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
+import { motion } from 'framer-motion';
 import TextReveal from '../ui/TextReveal';
 export default function ForgeSection() {
     const containerRef = useRef<HTMLElement>(null);
@@ -136,24 +137,24 @@ export default function ForgeSection() {
                         <div className="space-y-8">
                             <div>
                                 <div className="flex justify-between text-sm font-mono mb-3">
-                                    <span className="text-red-400 font-semibold">Before: OpenAI API</span>
-                                    <span className="text-red-400">$12,000/mo</span>
+                                    <span className="text-rose-400 font-semibold">Before: OpenAI API</span>
+                                    <span className="text-rose-400">$12,000/mo</span>
                                 </div>
-                                <div className="h-4 rounded-full bg-red-500/20 w-full">
-                                    <div className="h-full rounded-full bg-gradient-to-r from-red-500 to-red-400" style={{ width: '100%' }} />
+                                <div className="h-4 rounded-full bg-rose-500/20 w-full mb-6 relative">
+                                    <div className="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-rose-500 to-rose-400 shadow-[0_0_15px_rgba(244,63,94,0.3)]" style={{ width: '100%' }} />
                                 </div>
                             </div>
                             <div>
                                 <div className="flex justify-between text-sm font-mono mb-3">
-                                    <span className="text-green-400 font-semibold">After: Custom vLLM</span>
-                                    <span className="text-green-400">$3,600/mo</span>
+                                    <span className="text-emerald-400 font-semibold">After: Custom vLLM</span>
+                                    <span className="text-emerald-400">$3,600/mo</span>
                                 </div>
-                                <div className="h-4 rounded-full bg-green-500/20 w-full">
-                                    <div className="h-full rounded-full bg-gradient-to-r from-green-500 to-green-400" style={{ width: '30%' }} />
+                                <div className="h-4 rounded-full bg-emerald-500/20 w-full relative">
+                                    <div className="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-emerald-500 to-emerald-400 shadow-[0_0_20px_rgba(52,211,153,0.4)]" style={{ width: '30%' }} />
                                 </div>
                             </div>
-                            <div className="text-center pt-6 border-t border-white/10">
-                                <span className="text-4xl font-heading font-bold text-green-400">$8,400</span>
+                            <div className="text-center pt-6 border-t border-white/10 mt-6">
+                                <span className="text-4xl font-heading font-bold text-emerald-400 drop-shadow-[0_0_10px_rgba(52,211,153,0.3)]">$8,400</span>
                                 <span className="text-white/50 text-base font-mono ml-3">saved per month</span>
                             </div>
                         </div>
@@ -170,14 +171,21 @@ export default function ForgeSection() {
                             </div>
                             {/* Connected nodes */}
                             {[
-                                { label: 'Rules', x: '-80px', y: '-60px' },
-                                { label: 'Docs', x: '80px', y: '-40px' },
-                                { label: 'Context', x: '-60px', y: '60px' },
-                                { label: 'Response', x: '70px', y: '50px' },
+                                { label: 'Rules', x: -80, y: -60, delay: 0 },
+                                { label: 'Docs', x: 80, y: -40, delay: 1 },
+                                { label: 'Context', x: -60, y: 60, delay: 2 },
+                                { label: 'Response', x: 70, y: 50, delay: 0.5 },
                             ].map((node, i) => (
-                                <div key={i} className="absolute w-16 h-16 rounded-full border border-white/10 bg-white/5 flex items-center justify-center" style={{ transform: `translate(${node.x}, ${node.y})` }}>
-                                    <span className="font-mono text-[9px] text-white/40">{node.label}</span>
-                                </div>
+                                <motion.div
+                                    key={i}
+                                    initial={{ x: node.x, y: node.y }}
+                                    animate={{ y: [node.y, node.y - 12, node.y] }}
+                                    transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut', delay: node.delay }}
+                                    whileHover={{ scale: 1.15, boxShadow: '0px 0px 20px rgba(255,255,255,0.2)', borderColor: 'rgba(255,255,255,0.4)', transition: { duration: 0.2 } }}
+                                    className="absolute w-16 h-16 rounded-full border border-white/10 bg-white/5 flex items-center justify-center cursor-pointer transition-colors duration-300"
+                                >
+                                    <span className="font-mono text-[9px] text-white/40 pointer-events-none">{node.label}</span>
+                                </motion.div>
                             ))}
                             <div className="absolute inset-0 flex items-center justify-center">
                                 <div className="w-48 h-48 rounded-full border border-dashed border-white/5 animate-spin" style={{ animationDuration: '30s' }} />

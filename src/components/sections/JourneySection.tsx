@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import dynamic from 'next/dynamic';
 import { Github, Linkedin, Mail, Award, BookOpen } from 'lucide-react';
@@ -55,6 +55,40 @@ export default function JourneySection() {
     const sectionRef = useRef<HTMLElement>(null);
     const contentRef = useRef<HTMLDivElement>(null);
     const timelineRefs = useRef<(HTMLDivElement | null)[]>([]);
+    const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+
+    useEffect(() => {
+        let animationFrameId: number;
+        let targetX = 0;
+        let targetY = 0;
+        let currentX = 0;
+        let currentY = 0;
+
+        const handleMouseMove = (e: MouseEvent) => {
+            if (!sectionRef.current) return;
+            const rect = sectionRef.current.getBoundingClientRect();
+            // Only update if viewport is in general view
+            if (rect.top < window.innerHeight && rect.bottom > 0) {
+                targetX = (e.clientX / window.innerWidth) * 2 - 1;
+                targetY = (e.clientY / window.innerHeight) * 2 - 1;
+            }
+        };
+
+        const renderLoop = () => {
+            currentX += (targetX - currentX) * 0.05;
+            currentY += (targetY - currentY) * 0.05;
+            setMousePos({ x: currentX, y: currentY });
+            animationFrameId = requestAnimationFrame(renderLoop);
+        };
+
+        window.addEventListener('mousemove', handleMouseMove);
+        renderLoop();
+
+        return () => {
+            window.removeEventListener('mousemove', handleMouseMove);
+            cancelAnimationFrame(animationFrameId);
+        };
+    }, []);
 
     useEffect(() => {
         gsap.fromTo(
@@ -198,6 +232,8 @@ export default function JourneySection() {
                 <DitheringBackground
                     colorFront="hsl(220, 80%, 60%)"
                     shape="sphere"
+                    offsetX={mousePos.x}
+                    offsetY={mousePos.y}
                 />
             </div>
 
