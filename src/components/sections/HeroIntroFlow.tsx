@@ -18,7 +18,7 @@ export default function HeroIntroFlow() {
     const nameInnerRef = useRef<HTMLDivElement>(null);
     const introContentRef = useRef<HTMLDivElement>(null);
     const textRevealRefs = useRef<(HTMLElement | null)[]>([]);
-    const charRefs = useRef<(HTMLSpanElement | null)[]>([]);
+    const charRefs = useRef<(HTMLDivElement | null)[]>([]);
 
     useEffect(() => {
         if (typeof window === 'undefined') return;
@@ -43,7 +43,14 @@ export default function HeroIntroFlow() {
 
             // Force reflow to get accurate measurements
             charRefs.current.forEach((el, i) => {
-                if (el) widths[i] = el.getBoundingClientRect().width;
+                if (el) {
+                    let w = el.getBoundingClientRect().width;
+                    // Provide a consistent minimum width for the space character so words aren't squished
+                    if (FULL_TEXT[i] === ' ') {
+                        w = window.innerWidth * (isMobile ? 0.03 : 0.02); // 3vw space on mobile, 2vw on desktop
+                    }
+                    widths[i] = (w / window.innerWidth) * 100; // Store as vw to scale with font-size natively
+                }
             });
 
             // Collapse hidden chars back
@@ -77,7 +84,7 @@ export default function HeroIntroFlow() {
 
             ripunjayHidden.forEach((item, idx) => {
                 tl.to(item.el!, {
-                    width: item.w,
+                    width: `${item.w}vw`,
                     opacity: 1,
                     duration: 0.12,
                     ease: 'power2.out',
@@ -91,7 +98,7 @@ export default function HeroIntroFlow() {
 
             singhChars.forEach((item, idx) => {
                 tl.to(item.el!, {
-                    width: item.w,
+                    width: `${item.w}vw`,
                     opacity: 1,
                     duration: 0.1,
                     ease: 'power2.out',
@@ -162,20 +169,22 @@ export default function HeroIntroFlow() {
             >
                 <div
                     ref={nameInnerRef}
-                    className="whitespace-nowrap"
+                    className="flex flex-row items-center justify-center whitespace-nowrap"
                     style={{ willChange: 'transform' }}
                 >
                     {FULL_TEXT.split('').map((char, i) => {
                         const isBase = BASE_INDICES.has(i);
                         return (
-                            <span
+                            <div
                                 key={i}
                                 ref={el => { charRefs.current[i] = el; }}
-                                className="inline-block align-top text-[5.5vw] md:text-[6.5vw] font-black text-transparent bg-clip-text bg-gradient-to-br from-white via-gray-200 to-gray-600 tracking-[-0.02em] leading-none"
-                                style={isBase ? { verticalAlign: 'top' } : { width: 0, opacity: 0, overflow: 'hidden', verticalAlign: 'top' }}
+                                className="flex-none flex items-center overflow-hidden py-4 -my-4"
+                                style={isBase ? {} : { width: 0, opacity: 0 }}
                             >
-                                {char === ' ' ? '\u00A0' : char}
-                            </span>
+                                <span className="text-[5.5vw] md:text-[6.5vw] font-black text-transparent bg-clip-text bg-gradient-to-br from-white via-gray-200 to-gray-600 tracking-[-0.02em] leading-none">
+                                    {char === ' ' ? '\u00A0' : char}
+                                </span>
+                            </div>
                         );
                     })}
                 </div>
