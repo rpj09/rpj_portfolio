@@ -115,7 +115,7 @@ export function DottedSurface({ className, ...props }: DottedSurfaceProps) {
 			}
 
 			renderer.render(scene, camera);
-			count += 0.1;
+			count += 0.02; // Reduced from 0.1 for a slower, more cinematic wave
 		};
 
 		// Handle window resize
