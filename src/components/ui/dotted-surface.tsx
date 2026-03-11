@@ -46,9 +46,7 @@ export function DottedSurface({ className, ...props }: DottedSurfaceProps) {
 		containerRef.current.appendChild(renderer.domElement);
 
 		// Create particles
-		const particles: THREE.Points[] = [];
 		const positions: number[] = [];
-		const colors: number[] = [];
 
 		// Create geometry for all particles
 		const geometry = new THREE.BufferGeometry();
@@ -60,8 +58,6 @@ export function DottedSurface({ className, ...props }: DottedSurfaceProps) {
 				const z = iy * SEPARATION - (AMOUNTY * SEPARATION) / 2;
 
 				positions.push(x, y, z);
-				// Float32BufferAttribute expects RGB color values between 0.0 and 1.0
-				colors.push(0.8, 0.8, 0.8); // Light gray dots
 			}
 		}
 
@@ -69,12 +65,11 @@ export function DottedSurface({ className, ...props }: DottedSurfaceProps) {
 			'position',
 			new THREE.Float32BufferAttribute(positions, 3),
 		);
-		geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
 
 		// Create material
 		const material = new THREE.PointsMaterial({
-			size: 8,
-			vertexColors: true,
+			size: 10,  // Slightly thicker dots for visibility
+			color: 0xffffff,
 			transparent: true,
 			opacity: 0.8,
 			sizeAttenuation: true,
@@ -178,7 +173,7 @@ export function DottedSurface({ className, ...props }: DottedSurfaceProps) {
 	return (
 		<div
 			ref={containerRef}
-			className={`pointer-events-none absolute inset-0 -z-10 ${className || ''}`}
+			className={`pointer-events-none absolute inset-0 -z-0 ${className || ''}`}
 			{...props}
 		/>
 	);

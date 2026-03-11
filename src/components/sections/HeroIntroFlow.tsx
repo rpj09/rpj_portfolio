@@ -24,8 +24,11 @@ export default function HeroIntroFlow() {
         if (typeof window === 'undefined') return;
         const isMobile = window.innerWidth < 768;
 
-        const ctx = gsap.context(() => {
-            // --- Measure natural widths of hidden characters ---
+        let ctx: gsap.Context;
+
+        document.fonts.ready.then(() => {
+            ctx = gsap.context(() => {
+                // --- Measure natural widths of hidden characters ---
             // Temporarily expand hidden chars, measure, then collapse
             const widths: number[] = [];
 
@@ -135,9 +138,11 @@ export default function HeroIntroFlow() {
                 0.5
             );
 
-        }, sectionRef);
+            }, sectionRef);
 
-        return () => ctx.revert();
+        });
+
+        return () => ctx?.revert();
     }, []);
 
     return (
