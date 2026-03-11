@@ -4,6 +4,7 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ArrowRight, FileText, Github, Linkedin, Mail, Twitter } from 'lucide-react';
 import AnimatedCounter from '../ui/AnimatedCounter';
+import { DottedSurface } from '../ui/dotted-surface';
 
 export default function CTASection() {
     const ctaRef = useRef<HTMLElement>(null);
@@ -32,6 +33,7 @@ export default function CTASection() {
     return (
         <section ref={ctaRef} className="relative w-full min-h-screen py-32 flex flex-col justify-center items-center overflow-hidden z-20 mt-12 md:mt-24">
             <div className="absolute inset-0 bg-gradient-to-t from-background-base via-transparent to-transparent -z-10" />
+            <DottedSurface className="absolute inset-0 z-[-5] opacity-50" />
 
             <div ref={contentRef} className="relative z-10 flex flex-col items-center text-center px-6 max-w-4xl">
 
